@@ -23,7 +23,11 @@ class Wall:
 		this._canvas = canvas;
 	
 	def __del__(this):
-		this._canvas.delete(this.obj);
+		try:
+			this._canvas.delete(this.obj);
+		except:
+			# eat error about destroyed canvas
+			pass;
 	
 	def interact(this, obj):
 		pass;
