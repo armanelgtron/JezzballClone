@@ -9,7 +9,7 @@ def main():
 	game.new(mainwin.canvas);
 	game.loop(mainwin.canvas);
 	
-	mainwin.run();
+	mainwin.mainloop();
 
 if(__name__ == "__main__"):
 	main();

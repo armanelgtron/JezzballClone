@@ -10,22 +10,24 @@ import tkinter as tk
 
 from src.game import game
 
-class Main:
+class Main(tk.Tk):
 	
+	# empty container class
 	class menus:
 		pass;
 	
 	def __init__(this):
-		this.root = tk.Tk();
+		tk.Tk.__init__(this);
 		
-		this.root.title("Jezzball Clone");
+		this.title("Jezzball Clone");
 		
 		# menubar
-		this.menu = tk.Menu(this.root);
+		this.menu = tk.Menu(this);
 		
 		# file menu
 		this.menus.file = tk.Menu(this.menu, tearoff=False);
-		this.menus.file.add_command(label="Quit", command=this.root.quit);
+		this.menus.file.add_command(label="New Game", command=lambda:game.new(this.canvas));
+		this.menus.file.add_command(label="Quit", command=this.quit);
 		this.menu.add_cascade(label="File", menu=this.menus.file);
 		
 		# configure menu
@@ -39,7 +41,7 @@ class Main:
 		this.menu.add_cascade(label="Help", menu=this.menus.help);
 		
 		# make toolbar
-		this.toolbar_main = tk.Frame(this.root, bd=1, relief=tk.RAISED);
+		this.toolbar_main = tk.Frame(this, bd=1, relief=tk.RAISED);
 		
 		# new game toolbar action
 		tb_main_new = tk.Button(this.toolbar_main, relief=tk.FLAT, command=lambda:game.new(this.canvas));
@@ -63,16 +65,13 @@ class Main:
 		this.tb_main_pause = tb_main_pause;
 		
 		# toolbar exit button
-		tb_exit = tk.Button(this.toolbar_main, command=this.root.quit);
+		tb_exit = tk.Button(this.toolbar_main, command=this.quit);
 		tb_exit.configure(text="Exit");
 		tb_exit.pack(side=tk.RIGHT);
 		
 		this.toolbar_main.pack(side=tk.TOP, fill=tk.X)
 		
-		this.root.config(menu=this.menu);
-		this.canvas = tk.Canvas(this.root, width=500, height=300, bg="#000", bd=0, highlightthickness=0);
+		this.config(menu=this.menu);
+		this.canvas = tk.Canvas(this, width=500, height=300, bg="#000", bd=0, highlightthickness=0);
 		this.canvas.pack();
-	
-	def run(this):
-		this.root.mainloop();
 
