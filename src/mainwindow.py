@@ -10,6 +10,8 @@ import tkinter as tk
 
 from src.game import game
 
+from src.configurewindow import *
+
 class Main(tk.Tk):
 	
 	# empty container class
@@ -32,7 +34,7 @@ class Main(tk.Tk):
 		
 		# configure menu
 		this.menus.settings = tk.Menu(this.menu, tearoff=False);
-		this.menus.settings.add_command(label="Configure");
+		this.menus.settings.add_command(label="Configure", command=this.openConfiguration);
 		this.menu.add_cascade(label="Settings", menu=this.menus.settings);
 		
 		# help menu
@@ -74,4 +76,7 @@ class Main(tk.Tk):
 		this.config(menu=this.menu);
 		this.canvas = tk.Canvas(this, width=500, height=300, bg="#000", bd=0, highlightthickness=0);
 		this.canvas.pack();
-
+	
+	def openConfiguration(this):
+		conf = ConfigureWindow(this);
+		
