@@ -64,7 +64,7 @@ def doFill(canvas, x, y):
 	# makes sure only empty areas without balls are filled in
 	delete = [];
 	for pos in unfill:
-		_unfill_recur(pos[0], pos[1], delete, unfill);
+		_unfill_recur(pos[0], pos[1], delete);
 	
 	# restore original recursion limit
 	sys.setrecursionlimit(limit);
