@@ -2,6 +2,7 @@
 from src.Wall import Wall 
 from src.Ball import Ball 
 
+import time;
 import random;
 
 """
@@ -19,6 +20,9 @@ class game:
 	fill = 0;
 	
 	level = 0;
+	
+	# whether the cursor is vertical or horizontal
+	cursorMode = False;
 	
 	objects = [];
 	
@@ -58,10 +62,11 @@ class game:
 	
 	@staticmethod
 	def loop(canvas):
-		canvas.after(20, game.loop, canvas);
-		
 		if( game.paused ):
+			canvas.after(100, game.loop, canvas);
 			return;
+		
+		start = time.time();
 		
 		for obj in game.objects:
 			if( obj.recvInteract ):
@@ -76,5 +81,11 @@ class game:
 		
 		for d in destroyed:
 			game.objects.remove(d);
+		
+		timeout = int(20 - ( 1000 * ( time.time() - start )));
+		if( timeout < 1 ):
+			timeout = 1;
+		
+		canvas.after(timeout, game.loop, canvas);
 
 
