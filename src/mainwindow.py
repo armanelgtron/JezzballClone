@@ -7,6 +7,7 @@ The main window, with all of the UI elements like menus and toolbars
 """
 
 import tkinter as tk
+import tkinter.ttk as ttk
 
 from src.game import game
 
@@ -20,6 +21,8 @@ class Main(tk.Tk):
 	
 	def __init__(this):
 		tk.Tk.__init__(this);
+		
+		this.style = ttk.Style();
 		
 		this.title("Jezzball Clone");
 		
@@ -67,7 +70,7 @@ class Main(tk.Tk):
 		this.tb_main_pause = tb_main_pause;
 		
 		# toolbar exit button
-		tb_exit = tk.Button(this.toolbar_main, command=this.quit);
+		tb_exit = ttk.Button(this.toolbar_main, command=this.quit);
 		tb_exit.configure(text="Exit");
 		tb_exit.pack(side=tk.RIGHT);
 		

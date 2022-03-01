@@ -7,6 +7,7 @@ The main window, with all of the UI elements like menus and toolbars
 """
 
 import tkinter as tk
+import tkinter.ttk as ttk
 
 from src.game import game
 
@@ -68,8 +69,8 @@ class ConfigureWindow(tk.Toplevel):
 		# finally, the bottons
 		this.btns = tk.Frame(this);
 		
-		this.btn_cancel = tk.Button(this.btns, text="Cancel");
-		this.btn_ok = tk.Button(this.btns, text="OK");
+		this.btn_cancel = ttk.Button(this.btns, text="Cancel");
+		this.btn_ok = ttk.Button(this.btns, text="OK");
 		
 		this.btn_cancel.pack(side=tk.RIGHT);
 		this.btn_ok.pack(side=tk.RIGHT);
