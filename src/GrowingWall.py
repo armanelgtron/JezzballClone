@@ -10,6 +10,8 @@ from src.game import game
 from src.Wall import Wall 
 from src.fill import doFill
 
+import time;
+
 class GrowingWall:
 	recvInteract = False;
 	
@@ -89,10 +91,13 @@ class SubGrowingWall:
 			newx, newy = this.x+this.xdir, this.y+this.ydir;
 			
 			# check if there's a wall in our next grow spot
-			# if so, replace the growingwall segment with real walls
 			for obj in game.objects:
 				if( newx == round(obj.x) and newy == round(obj.y) ):
 					if( isinstance(obj, Wall) ):
+						# start time
+						start = time.time();
+						
+						# replace the growingwall segment with real walls
 						this.interact(obj);
 						for obj2 in this.owner.objects:
 							obj2.destroy();
@@ -100,6 +105,12 @@ class SubGrowingWall:
 						
 						# trigger filling
 						doFill(this.owner.canvas, obj2.x, obj2.y);
+						
+						# trigger early game cycles to make up time difference
+						step = ( time.time() - start ) * 1000;
+						steps = int( round( step / 40 ) );
+						this.owner.canvas.after(4, game.updates, canvas, steps);
+						
 						return True;
 			
 			this.owner.addObj( SubGrowingWall(this.owner, newx, newy, this.xdir, this.ydir) );

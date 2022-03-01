@@ -76,6 +76,7 @@ class game:
 		
 		canvas.after(timeout, game.loop, canvas);
 	
+	@staticmethod
 	def update(canvas):
 		for obj in game.objects:
 			if( obj.recvInteract ):
@@ -90,5 +91,10 @@ class game:
 		
 		for d in destroyed:
 			game.objects.remove(d);
+	
+	@staticmethod
+	def updates(canvas, times):
+		for x in range(times):
+			game.update(canvas);
 
 
