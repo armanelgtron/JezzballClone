@@ -8,12 +8,14 @@ The main window, with all of the UI elements like menus and toolbars
 
 import tkinter as tk
 import tkinter.ttk as ttk
+import tkinter.messagebox
 
 from src.game import game
 
 class ConfigureWindow(tk.Toplevel):
 	def __init__(this, root):
 		tk.Toplevel.__init__(this, root);
+		this.root = root;
 		
 		this.resizable(False, False);
 		this.title(" ");
@@ -26,7 +28,7 @@ class ConfigureWindow(tk.Toplevel):
 		this.inp_width = tk.Spinbox(this.s1, textvariable=this.width,
 			value=game.width,
 			width=5,
-			from_=0,
+			from_=1, to=250,
 		);
 		this.label_width.grid(row=1, column=1);
 		this.inp_width.grid(row=1, column=2);
@@ -37,7 +39,8 @@ class ConfigureWindow(tk.Toplevel):
 		this.inp_height = tk.Spinbox(this.s1, textvariable=this.height,
 			value=game.height,
 			width=5,
-			from_=0,
+			from_=1, to=250,
+			increment=1,
 		);
 		this.label_height.grid(row=1, column=3);
 		this.inp_height.grid(row=1, column=4);
@@ -50,11 +53,12 @@ class ConfigureWindow(tk.Toplevel):
 		
 		# fill required to 
 		this.label_fill = tk.Label(this.s2, text="Fill Required:")
-		this.fill = tk.IntVar(this.s2);
-		this.inp_fill = tk.Spinbox(this.s2,	textvariable=this.fill,
+		this.fill = tk.DoubleVar(this.s2);
+		this.inp_fill = tk.Spinbox(this.s2, textvariable=this.fill,
 			value=game.fill_required,
 			width=7,
-			from_=0,
+			from_=9, to=99,
+			increment=1,
 		);
 		this.label_fill_perc = tk.Label(this.s2, text="%")
 		
@@ -69,14 +73,55 @@ class ConfigureWindow(tk.Toplevel):
 		# finally, the bottons
 		this.btns = tk.Frame(this);
 		
-		this.btn_cancel = ttk.Button(this.btns, text="Cancel");
-		this.btn_ok = ttk.Button(this.btns, text="OK");
+		this.btn_cancel = ttk.Button(this.btns, text="Cancel", command=this.destroy);
+		this.btn_apply = ttk.Button(this.btns, text="Apply", command=this.apply);
+		this.btn_ok = ttk.Button(this.btns, text="OK", command=this.okButton);
 		
 		this.btn_cancel.pack(side=tk.RIGHT);
+		this.btn_apply.pack(side=tk.RIGHT);
 		this.btn_ok.pack(side=tk.RIGHT);
 		
 		# the buttons should always at the bottom
 		this.btns.grid(row=99);
+	
+	def apply(this):
+		# set size
 		
+		try:
+			newWidth = int(this.width.get());
+			newHeight = int(this.height.get());
+		except:
+			tk.messagebox.showerror("Error", "The width or height entered is invalid!");
+			return False;
 		
+		try:
+			newFill = float(this.fill.get());
+		except:
+			tk.messagebox.showerror("Error", "The fill amount entered is invalid!");
+			return False;
+		
+		if(
+			( newWidth < this.inp_width.cget("from") or newWidth > this.inp_width.cget("to") )
+			or
+			( newHeight < this.inp_height.cget("from") or newHeight > this.inp_height.cget("to") )
+			or
+			( newFill < this.inp_fill.cget("from") or newHeight > this.inp_fill.cget("to") )
+		):
+			tk.messagebox.showerror("Error", "One or more values are outside the valid range.");
+			return False;
+		
+		game.width = newWidth;
+		game.height = newHeight;
+		
+		game.fill_required = newFill;
+		
+		# start a new game to apply changes
+		game.new(this.root.canvas);
+		
+		return True;
+	
+	def okButton(this):
+		if( this.apply() ):
+			# if applying is successful, close dialog
+			this.destroy();
 
