@@ -66,6 +66,7 @@ class Main(tk.Tk):
 			tb_main_pause.config(image=this._image2, compound=tk.LEFT);
 		except:
 			pass;
+		tb_main_pause.config(command=this.togglePause)
 		tb_main_pause.pack(side=tk.LEFT);
 		this.tb_main_pause = tb_main_pause;
 		
@@ -82,4 +83,11 @@ class Main(tk.Tk):
 	
 	def openConfiguration(this):
 		conf = ConfigureWindow(this);
+	
+	def togglePause(this):
+		game.paused = (not game.paused);
 		
+		if( game.paused ):
+			this.tb_main_pause.config(relief=tk.SUNKEN);
+		else:
+			this.tb_main_pause.config(relief=tk.FLAT);

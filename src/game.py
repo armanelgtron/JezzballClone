@@ -22,6 +22,8 @@ class game:
 	
 	objects = [];
 	
+	paused = False;
+	
 	@staticmethod
 	def new(canvas): # new game
 		game.level = 1;
@@ -57,6 +59,9 @@ class game:
 	@staticmethod
 	def loop(canvas):
 		canvas.after(20, game.loop, canvas);
+		
+		if( game.paused ):
+			return;
 		
 		for obj in game.objects:
 			if( obj.recvInteract ):
