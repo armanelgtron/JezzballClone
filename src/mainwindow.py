@@ -84,6 +84,7 @@ class Main(tk.Tk):
 		
 		this.canvas.bind("<Button 1>", this.gameClick);
 		this.canvas.bind("<Button 3>", this.gameRight);
+		this.gameRight(None); # trigger a right-click now to set up cursor
 		
 	
 	def openConfiguration(this):
@@ -128,3 +129,7 @@ class Main(tk.Tk):
 	def gameRight(this, e):
 		# flip the cursormode between 0 and 1
 		game.cursorMode ^= 1;
+		if( game.cursorMode ):
+			this.canvas.config(cursor="sb_h_double_arrow");
+		else:
+			this.canvas.config(cursor="sb_v_double_arrow");

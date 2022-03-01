@@ -22,7 +22,7 @@ class game:
 	level = 0;
 	
 	# whether the cursor is vertical or horizontal
-	cursorMode = False;
+	cursorMode = 1;
 	
 	objects = [];
 	
