@@ -56,6 +56,8 @@ class game:
 	
 	@staticmethod
 	def loop(canvas):
+		canvas.after(20, game.loop, canvas);
+		
 		for obj in game.objects:
 			if( obj.recvInteract ):
 				for obj2 in game.objects:
@@ -69,7 +71,5 @@ class game:
 		
 		for d in destroyed:
 			game.objects.remove(d);
-		
-		canvas.after(20, game.loop, canvas);
 
 
