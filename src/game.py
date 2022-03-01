@@ -68,6 +68,15 @@ class game:
 		
 		start = time.time();
 		
+		game.update(canvas);
+		
+		timeout = int(20 - ( 1000 * ( time.time() - start )));
+		if( timeout < 1 ):
+			timeout = 1;
+		
+		canvas.after(timeout, game.loop, canvas);
+	
+	def update(canvas):
 		for obj in game.objects:
 			if( obj.recvInteract ):
 				for obj2 in game.objects:
@@ -81,11 +90,5 @@ class game:
 		
 		for d in destroyed:
 			game.objects.remove(d);
-		
-		timeout = int(20 - ( 1000 * ( time.time() - start )));
-		if( timeout < 1 ):
-			timeout = 1;
-		
-		canvas.after(timeout, game.loop, canvas);
 
 
