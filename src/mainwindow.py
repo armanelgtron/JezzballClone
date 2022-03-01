@@ -10,6 +10,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 from src.game import game
+from src.GrowingWall import *
 
 from src.configurewindow import *
 
@@ -80,6 +81,10 @@ class Main(tk.Tk):
 		this.config(menu=this.menu);
 		this.canvas = tk.Canvas(this, width=500, height=300, bg="#000", bd=0, highlightthickness=0);
 		this.canvas.pack();
+		
+		this.canvas.bind("<Button 1>", this.gameClick);
+		this.canvas.bind("<Button 3>", this.gameRight);
+		
 	
 	def openConfiguration(this):
 		conf = ConfigureWindow(this);
@@ -91,3 +96,35 @@ class Main(tk.Tk):
 			this.tb_main_pause.config(relief=tk.SUNKEN);
 		else:
 			this.tb_main_pause.config(relief=tk.FLAT);
+	
+	def gameClick(this, e):
+		if( game.paused ):
+			# do nothing if the game is paused
+			return;
+		
+		x = int(e.x/16); y = int(e.y/16);
+		#print("Clicked", x, y);
+		
+		# make sure there's nothing here
+		for obj in game.objects:
+			if( round(obj.x) == x and round(obj.y) == y ):
+				# there's an object here, abort
+				return;
+			if( isinstance(obj, GrowingWall) ):
+				# can only be one growingwall at a time
+				return;
+		
+		print("Spawn", x, y);
+		
+		# my late-night "clever" code:
+		# just flip the mode bit to set direction
+		xdir = game.cursorMode;
+		ydir = game.cursorMode^1;
+		
+		# then set the direction both ways
+		game.objects.append( GrowingWall(this.canvas, x, y, xdir, ydir) );
+		game.objects.append( GrowingWall(this.canvas, x, y,-xdir,-ydir) );
+	
+	def gameRight(this, e):
+		# flip the cursormode between 0 and 1
+		game.cursorMode ^= 1;

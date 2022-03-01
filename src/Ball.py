@@ -33,6 +33,7 @@ class Ball:
 	
 	def interact(this, obj):
 		is_wall = str(obj).find("Wall");
+		is_growingwall = str(obj).find("GrowingWall") != -1;
 		if( is_wall ):
 			# loop through 
 			for i in range(4):
@@ -43,6 +44,8 @@ class Ball:
 				check_x = round(this.x+offset_x);
 				check_y = round(this.y+offset_y);
 				if( check_x == obj.x and check_y == obj.y ):
+					if(is_growingwall):
+						break;
 					if(offset_x): # if the ball hit the left or right sides of the wall
 						# flip the x direction
 						this.xdir *= -1;
