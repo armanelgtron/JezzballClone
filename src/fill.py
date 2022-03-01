@@ -1,9 +1,11 @@
 
 """
+Provides the doFill and checkFill functions:
 
-Provides the doFill function
+doFill - Fills in empty areas without balls with walls
 
-Fills in empty areas without balls with walls
+checkFill - gets the percentage of the playarea filled with walls
+
 
 """
 
@@ -79,3 +81,17 @@ def doFill(canvas, x, y):
 	# finally, add walls in fill areas
 	for pos in wallPos:
 		game.objects.append(Wall( canvas, pos[0], pos[1] ));
+
+
+
+def checkFill():
+	total = game.width*game.height;
+	filled = 0;
+	
+	# loop through game objects and check how much of it is filled
+	for obj in game.objects:
+		if( isinstance(obj, Wall) ):
+			filled += 1;
+	
+	# return integer percentage out of 100
+	return (100*filled)//total;

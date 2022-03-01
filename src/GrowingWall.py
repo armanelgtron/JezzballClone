@@ -8,9 +8,11 @@ This is the wall while it grows.
 
 from src.game import game
 from src.Wall import Wall 
-from src.fill import doFill
+from src.fill import doFill, checkFill
 
 import time;
+
+from tkinter import messagebox;
 
 class GrowingWall:
 	recvInteract = False;
@@ -106,11 +108,17 @@ class SubGrowingWall:
 						# trigger filling
 						doFill(this.owner.canvas, obj2.x, obj2.y);
 						
+						game.fill = checkFill();
+						if( game.fill >= game.fill_required ):
+							game.level += 1;
+							messagebox.showinfo("Yay!", "You've successfully filled enough of the area!\nNow on to level "+str(game.level)+".");
+							canvas.after_idle(game.reset, canvas);
+							return True;
+						
 						# trigger early game cycles to make up time difference
 						step = ( time.time() - start ) * 1000;
 						steps = int( round( step / 40 ) );
-						this.owner.canvas.after(4, game.updates, canvas, steps);
-						
+						canvas.after_idle(game.updates, canvas, steps);
 						return True;
 			
 			this.owner.addObj( SubGrowingWall(this.owner, newx, newy, this.xdir, this.ydir) );
