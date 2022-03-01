@@ -70,7 +70,7 @@ class Main(tk.Tk):
 		this.tb_main_pause = tb_main_pause;
 		
 		# toolbar exit button
-		tb_exit = ttk.Button(this.toolbar_main, command=this.quit);
+		tb_exit = ttk.Button(this.toolbar_main, command=this.destroy);
 		tb_exit.configure(text="Exit");
 		tb_exit.pack(side=tk.RIGHT);
 		
