@@ -20,6 +20,7 @@ class Ball:
 		
 		this._canvas = canvas;
 		this.obj = canvas.create_oval(0, 0, 16, 16, fill="#fff");
+		this._canvas.move(this.obj, this.x*16, this.y*16)
 		
 		# the object should receive objects to interact with
 		this.recvInteract = True;
@@ -57,8 +58,7 @@ class Ball:
 		this.x += this.xdir;
 		this.y += this.ydir;
 		
-		# recreate the oval on every loop for now
-		this._canvas.delete(this.obj);
 		x = this.x*16; y = this.y*16;
-		this.obj = this._canvas.create_oval(x, y, x+16, y+16, fill="#fff");
+		
+		this._canvas.move(this.obj, this.xdir*16, this.ydir*16);
 
