@@ -33,9 +33,16 @@ class Ball:
 			pass;
 	
 	def interact(this, obj):
-		is_wall = str(obj).find("Wall");
+		if(this == obj): return;
+		is_wall = str(obj).find("Wall") != -1;
 		is_growingwall = str(obj).find("GrowingWall") != -1;
-		if( is_wall ):
+		is_ball = isinstance(obj, Ball);
+		if( is_wall or is_ball ):
+			if( is_wall ):
+				_x, _y = obj.x, obj.y;
+			else:
+				_x, _y = round(obj.x), round(obj.y);
+			
 			# loop through 
 			for i in range(4):
 				# get the current collision offset check
@@ -44,7 +51,7 @@ class Ball:
 				
 				check_x = round(this.x+offset_x);
 				check_y = round(this.y+offset_y);
-				if( check_x == obj.x and check_y == obj.y ):
+				if( check_x == _x and check_y == _y ):
 					if(is_growingwall):
 						break;
 					if(offset_x): # if the ball hit the left or right sides of the wall
