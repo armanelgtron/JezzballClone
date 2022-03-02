@@ -86,9 +86,38 @@ class Main(tk.Tk):
 		this.canvas.bind("<Button 3>", this.gameRight);
 		this.gameRight(None); # trigger a right-click now to set up cursor
 		
+		l = tk.Frame(this);
+		this.fill_ = tk.Label(l, text="Fill: ");
+		this.fill = tk.Label(l, text="0% ");
+		
+		this.fill_.grid(row=1, column=0); this.fill.grid(row=1, column=1);
+		
+		tk.Label(l, text=(" "*10)).grid(row=1, column=2);
+		
+		this.lives_ = tk.Label(l, text="Lives: ");
+		this.lives = tk.Label(l, text="0 ");
+		
+		this.lives_.grid(row=1, column=10); this.lives.grid(row=1, column=11);
+		
+		tk.Label(l, text=(" "*10)).grid(row=1, column=12);
+		
+		this.lvl_ = tk.Label(l, text="Level: ");
+		this.lvl = tk.Label(l, text="0 ");
+		
+		this.lvl_.grid(row=1, column=20); this.lvl.grid(row=1, column=21);
+		
+		
+		l.pack();
+		
+		game.updateLabel = lambda:this.updateLabel();
 	
 	def openConfiguration(this):
 		conf = ConfigureWindow(this);
+	
+	def updateLabel(this):
+		this.fill.config(text=str(game.fill)+"% ")
+		this.lives.config(text=str(game.lives)+" ")
+		this.lvl.config(text=str(game.level)+" ")
 	
 	def togglePause(this):
 		game.paused = (not game.paused);
@@ -133,3 +162,4 @@ class Main(tk.Tk):
 			this.canvas.config(cursor="sb_h_double_arrow");
 		else:
 			this.canvas.config(cursor="sb_v_double_arrow");
+	

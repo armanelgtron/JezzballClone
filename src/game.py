@@ -59,6 +59,7 @@ class game:
 			game.objects.append(Wall( canvas, game.width-1, y ));
 		
 		canvas.config(width=game.width*16, height=game.height*16)
+		game.updateLabel();
 	
 	@staticmethod
 	def loop(canvas):
