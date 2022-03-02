@@ -9,6 +9,8 @@ The main window, with all of the UI elements like menus and toolbars
 import tkinter as tk
 import tkinter.ttk as ttk
 
+from tkinter import messagebox
+
 from src.game import game
 from src.GrowingWall import *
 
@@ -110,6 +112,19 @@ class Main(tk.Tk):
 		l.pack();
 		
 		game.updateLabel = lambda:this.updateLabel();
+	
+	def report_callback_exception(this, exc, val, tb):
+		import sys, traceback;
+		sys.stderr.write("Exception in Tkinter callback\r\n");
+		sys.last_type, sys.last_value = exc, val;
+		sys.last_traceback = tb;
+		traceback.print_exception(exc, val, tb);
+		
+		messagebox.showerror("Fatal Error",
+			str.join("\n", traceback.format_exception(exc, val, tb))
+		);
+		
+		this.destroy();
 	
 	def openConfiguration(this):
 		conf = ConfigureWindow(this);
