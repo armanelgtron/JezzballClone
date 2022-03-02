@@ -12,8 +12,6 @@ from src.fill import doFill, checkFill
 
 import time;
 
-from tkinter import messagebox;
-
 class GrowingWall:
 	recvInteract = False;
 	
@@ -82,11 +80,7 @@ class SubGrowingWall:
 				for obj2 in this.owner.objects:
 					obj2.destroy();
 				game.lives -= 1;
-				if( game.lives < 0 ):
-					messagebox.showwarning("Oh no...", "You've run out of lives!\n\nBack to level 1...");
-					game.new(this.owner.canvas);
-				else:
-					game.updateLabel();
+				game.check(this.owner.canvas);
 	
 	def update(this):
 		canvas = this.owner.canvas;
@@ -114,12 +108,10 @@ class SubGrowingWall:
 						# trigger filling
 						doFill(this.owner.canvas, obj2.x, obj2.y);
 						
+						# update fill amount
 						game.fill = checkFill();
-						game.updateLabel();
-						if( game.fill >= game.fill_required ):
-							game.level += 1;
-							messagebox.showinfo("Yay!", "You've successfully filled enough of the area!\nNow on to level "+str(game.level)+".");
-							canvas.after_idle(game.reset, canvas);
+						# then trigger a game check
+						if( game.check(canvas) ):
 							return True;
 						
 						# trigger early game cycles to make up time difference

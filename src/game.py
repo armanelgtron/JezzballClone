@@ -1,14 +1,14 @@
 
+"""
+game loop and variables
+
+"""
+
 from src.Wall import Wall 
 from src.Ball import Ball 
 
 import time;
 import random;
-
-"""
-game loop and variables
-
-"""
 
 class game:
 	width = 32;
@@ -60,6 +60,23 @@ class game:
 		
 		canvas.config(width=game.width*16, height=game.height*16)
 		game.updateLabel();
+	
+	@staticmethod
+	def check(canvas):
+		# check lives
+		if( game.lives < 0 ):
+			from tkinter import messagebox
+			messagebox.showwarning("Oh no...", "You've run out of lives!\n\nBack to level 1...");
+			game.new(canvas);
+		else:
+			game.updateLabel();
+		
+		# check fill
+		if( game.fill >= game.fill_required ):
+			game.level += 1;
+			from tkinter import messagebox
+			messagebox.showinfo("Yay!", "You've successfully filled enough of the area!\nNow on to level "+str(game.level)+".");
+			canvas.after_idle(game.reset, canvas);
 	
 	@staticmethod
 	def loop(canvas):
