@@ -159,7 +159,7 @@ class Main(tk.Tk):
 				# can only be one growingwall at a time
 				return;
 		
-		print("Spawn", x, y);
+		#print("Spawn", x, y);
 		
 		# my late-night "clever" code:
 		# just flip the mode bit to set direction

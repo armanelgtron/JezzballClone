@@ -78,7 +78,7 @@ class SubGrowingWall:
 		if( this.x == round(obj.x) and this.y == round(obj.y) ):
 			if( str(obj).find(".Ball") != -1 ):
 				this.destroy();
-				print("Ball",obj, obj.x, this.x);
+				#print("Ball",obj, obj.x, this.x);
 				for obj2 in this.owner.objects:
 					obj2.destroy();
 				game.lives -= 1;
