@@ -24,22 +24,22 @@ class ConfigureWindow(tk.Toplevel):
 		
 		# spinint and associated label for the width
 		this.label_width = tk.Label(this.s1, text="Width:")
-		this.width = tk.IntVar(this.s1);
+		this.width = tk.IntVar(this.s1, game.width);
 		this.inp_width = tk.Spinbox(this.s1, textvariable=this.width,
-			value=game.width,
 			width=5,
-			from_=1, to=250,
+			from_=1, to=min(250, round((root.winfo_screenwidth()/16)+(1/2))),
+			increment=1,
 		);
+		this.inp_width.config(increment=1.0);
 		this.label_width.grid(row=1, column=1);
 		this.inp_width.grid(row=1, column=2);
 		
 		# spinint and associated label for the height
 		this.label_height = tk.Label(this.s1, text="Height:")
-		this.height = tk.IntVar(this.s1);
+		this.height = tk.IntVar(this.s1, game.height);
 		this.inp_height = tk.Spinbox(this.s1, textvariable=this.height,
-			value=game.height,
 			width=5,
-			from_=1, to=250,
+			from_=1, to=min(250, (round((root.winfo_screenheight()/16)+(1/2))-6)),
 			increment=1,
 		);
 		this.label_height.grid(row=1, column=3);
@@ -53,9 +53,8 @@ class ConfigureWindow(tk.Toplevel):
 		
 		# fill required to 
 		this.label_fill = tk.Label(this.s2, text="Fill Required:")
-		this.fill = tk.DoubleVar(this.s2);
+		this.fill = tk.DoubleVar(this.s2, game.fill_required);
 		this.inp_fill = tk.Spinbox(this.s2, textvariable=this.fill,
-			value=game.fill_required,
 			width=7,
 			from_=9, to=99,
 			increment=1,
