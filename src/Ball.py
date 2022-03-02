@@ -49,10 +49,16 @@ class Ball:
 						break;
 					if(offset_x): # if the ball hit the left or right sides of the wall
 						# flip the x direction
-						this.xdir *= -1;
+						if(offset_x > 0):
+							this.xdir = -abs(this.xdir);
+						else:
+							this.xdir = abs(this.xdir);
 					if(offset_y): # if the ball bounced from top or bottom of the wall
 						# flip the y direction
-						this.ydir *= -1;
+						if(offset_y > 0):
+							this.ydir = -abs(this.ydir);
+						else:
+							this.ydir = abs(this.ydir);
 	
 	def update(this):
 		this.x += this.xdir;
