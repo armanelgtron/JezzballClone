@@ -11,6 +11,8 @@ import tkinter as tk
 import random;
 
 class Ball:
+	ballCollide = False;
+	
 	def __init__(this, canvas, x=0, y=0):
 		this.x = x; this.y = y;
 		
@@ -36,7 +38,7 @@ class Ball:
 		if(this == obj): return;
 		is_wall = str(obj).find("Wall") != -1;
 		is_growingwall = str(obj).find("GrowingWall") != -1;
-		is_ball = isinstance(obj, Ball);
+		is_ball = ( Ball.ballCollide and isinstance(obj, Ball) );
 		if( is_wall or is_ball ):
 			if( is_wall ):
 				_x, _y = obj.x, obj.y;

@@ -11,6 +11,7 @@ import tkinter.ttk as ttk
 import tkinter.messagebox
 
 from src.game import game
+from src.Ball import Ball
 
 class ConfigureWindow(tk.Toplevel):
 	def __init__(this, root):
@@ -68,6 +69,12 @@ class ConfigureWindow(tk.Toplevel):
 		# add them as the second line
 		this.s2.grid(row=2);
 		
+		this.ballcollide = tk.BooleanVar(this, Ball.ballCollide);
+		this.inp_ballcollide = ttk.Checkbutton(this,
+			text="Balls collide against other balls",
+			variable=this.ballcollide,
+		);
+		this.inp_ballcollide.grid(row=2);
 		
 		# finally, the bottons
 		this.btns = tk.Frame(this);
@@ -113,6 +120,8 @@ class ConfigureWindow(tk.Toplevel):
 		game.height = newHeight;
 		
 		game.fill_required = newFill;
+		
+		Ball.ballCollide = this.ballcollide.get();
 		
 		# start a new game to apply changes
 		game.new(this.root.canvas);
