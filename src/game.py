@@ -24,6 +24,10 @@ class game:
 	# whether the cursor is vertical or horizontal
 	cursorMode = 1;
 	
+	# if the levels are advancing
+	# used to workaround a bug: advancing twice and crashing
+	advanceLevel = False;
+	
 	objects = [];
 	
 	paused = False;
@@ -60,9 +64,15 @@ class game:
 		
 		canvas.config(width=game.width*16, height=game.height*16)
 		game.updateLabel();
+		
+		game.advanceLevel = False; # no longer advancing levels
 	
 	@staticmethod
 	def check(canvas):
+		if(game.advanceLevel):
+			# Do nothing if we're advancing the level soon
+			return;
+		
 		# check lives
 		if( game.lives < 0 ):
 			from tkinter import messagebox
@@ -74,8 +84,14 @@ class game:
 		# check fill
 		if( game.fill >= game.fill_required ):
 			game.level += 1;
+			
+			# show dialog
 			from tkinter import messagebox
 			messagebox.showinfo("Yay!", "You've successfully filled enough of the area!\nNow on to level "+str(game.level)+".");
+			
+			game.advanceLevel = True;
+			
+			# reset game properly next cycle
 			canvas.after_idle(game.reset, canvas);
 	
 	@staticmethod
