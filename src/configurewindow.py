@@ -75,7 +75,7 @@ class ConfigureWindow(tk.Toplevel):
 			text="Balls collide against other balls",
 			variable=this.ballcollide,
 		);
-		this.inp_ballcollide.grid(row=2);
+		this.inp_ballcollide.grid(row=3);
 		
 		# finally, the bottons
 		this.btns = tk.Frame(this);
