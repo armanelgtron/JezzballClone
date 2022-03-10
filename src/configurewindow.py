@@ -16,6 +16,7 @@ from src.Ball import Ball
 class ConfigureWindow(tk.Toplevel):
 	def __init__(this, root):
 		tk.Toplevel.__init__(this, root);
+		this.transient(root);
 		this.root = root;
 		
 		this.resizable(False, False);
@@ -89,6 +90,9 @@ class ConfigureWindow(tk.Toplevel):
 		
 		# the buttons should always at the bottom
 		this.btns.grid(row=99);
+		
+		this.focus_force();
+		this.grab_set();
 	
 	def apply(this):
 		# set size
