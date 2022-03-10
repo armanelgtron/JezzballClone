@@ -124,7 +124,10 @@ class game:
 				destroyed.append(obj);
 		
 		for d in destroyed:
-			game.objects.remove(d);
+			try:
+				game.objects.remove(d);
+			except:
+				print(d);
 	
 	@staticmethod
 	def updates(canvas, times):
