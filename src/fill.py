@@ -14,7 +14,44 @@ from src.Wall import Wall
 
 import sys;
 
+
+# based on the _unfill_recur function, but no longer relying on recursion
+def _unfill_stack(x_, y_, objs):
+	stack = [(x_, y_)];
+	
+	while( True ):
+		try:
+			x, y = stack.pop();
+		except IndexError:
+			break;
+		
+		_continue = False;
+		for obj in game.objects:
+			if( obj.x == x and obj.y == y ):
+				_continue = True;
+				break;
+		
+		for pos in objs:
+			if( pos[0] == x and pos[1] == y ):
+				_continue = True;
+				break;
+		
+		if(_continue): continue;
+		
+		objs.append( (x, y) );
+		
+		stack.append((x-1, y  ));
+		stack.append((x+1, y  ));
+		stack.append((x-1, y-1));
+		stack.append((x-1, y+1));
+		stack.append((x+1, y-1));
+		stack.append((x+1, y+1));
+		stack.append((x  , y-1));
+		stack.append((x  , y+1));
+
+
 # recursive function for un-filling in areas
+# no longer needed, but left here just in case / as reference
 def _unfill_recur(x, y, objs):
 	for obj in game.objects:
 		if( obj.x == x and obj.y == y ):
@@ -58,18 +95,13 @@ def doFill(canvas, x, y):
 				# probably a ball here, mark to unfill
 				unfill.append( (_x, _y) );
 	
-	# save and raise recursion limit...
-	limit = sys.getrecursionlimit();
-	sys.setrecursionlimit(int(1e6));
-	
-	# recursively unfill areas with ball
+	# unfill areas with balls
 	# makes sure only empty areas without balls are filled in
+	# no longer relying on recursion
 	delete = [];
 	for pos in unfill:
-		_unfill_recur(pos[0], pos[1], delete);
+		_unfill_stack(pos[0], pos[1], delete);
 	
-	# restore original recursion limit
-	sys.setrecursionlimit(limit);
 	
 	# actually delete walls
 	for pos in delete:
