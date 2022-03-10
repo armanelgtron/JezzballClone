@@ -15,6 +15,8 @@ from src.Wall import Wall
 import sys;
 
 
+_gamestate = [];
+
 # based on the _unfill_recur function, but no longer relying on recursion
 def _unfill_stack(x_, y_, objs):
 	stack = [(x_, y_)];
@@ -25,11 +27,11 @@ def _unfill_stack(x_, y_, objs):
 		except IndexError:
 			break;
 		
+		if(_gamestate[x][y]):
+			if(_gamestate[x][y].x == x and _gamestate[x][y].y == y ):
+				continue;
+		
 		_continue = False;
-		for obj in game.objects:
-			if( obj.x == x and obj.y == y ):
-				_continue = True;
-				break;
 		
 		for pos in objs:
 			if( pos[0] == x and pos[1] == y ):
@@ -37,6 +39,7 @@ def _unfill_stack(x_, y_, objs):
 				break;
 		
 		if(_continue): continue;
+		
 		
 		objs.append( (x, y) );
 		
@@ -77,10 +80,29 @@ def _unfill_recur(x, y, objs):
 def doFill(canvas, x, y):
 	wallPos = [];
 	
-	# fill array with every possible spot on playarea
+	# make sure gamestate is cleared
+	_gamestate.clear();
+	
+	# fill wallPos array with every possible spot on playarea
+	# while also preparing to fill gamestate array
 	for x in range(game.width):
+		s = [];
 		for y in range(game.height):
 			wallPos.append( (x, y) );
+			s.append(False);
+		_gamestate.append(s);
+	
+	# populate direct objects first
+	for obj in game.objects:
+		_x, _y = int(round(obj.x)), int(round(obj.y));
+		if( obj.x == _x and obj.y == _y ):
+			_gamestate[_x][_y] = obj;
+	
+	# indirect objects override direct objects
+	for obj in game.objects:
+		_x, _y = int(round(obj.x)), int(round(obj.y));
+		if( obj.x != _x and obj.y != _y ):
+			_gamestate[_x][_y] = obj;
 	
 	# check gameobjects positions
 	unfill = [];
@@ -113,6 +135,11 @@ def doFill(canvas, x, y):
 	# finally, add walls in fill areas
 	for pos in wallPos:
 		game.objects.append(Wall( canvas, pos[0], pos[1] ));
+	
+	
+	# make sure to clear gamestate
+	# so objects can be deleted properly
+	_gamestate.clear();
 
 
 
