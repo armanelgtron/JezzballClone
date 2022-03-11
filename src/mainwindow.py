@@ -26,6 +26,8 @@ class Main(tk.Tk):
 		tk.Tk.__init__(this);
 		
 		this.style = ttk.Style();
+		if( this.style.theme_use() == "default" ):
+			this.style.theme_use("clam");
 		
 		this.title("Jezzball Clone");
 		
