@@ -89,13 +89,14 @@ class game:
 			from tkinter import messagebox
 			messagebox.showinfo("Yay!", "You've successfully filled enough of the area!\nNow on to level "+str(game.level)+".");
 			
-			game.advanceLevel = True;
-			
 			# reset game properly next cycle
-			canvas.after_idle(game.reset, canvas);
+			game.advanceLevel = True;
 	
 	@staticmethod
 	def loop(canvas):
+		if( game.advanceLevel ):
+			game.reset(canvas);
+		
 		if( game.paused ):
 			canvas.after(100, game.loop, canvas);
 			return;
