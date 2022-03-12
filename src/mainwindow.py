@@ -47,7 +47,7 @@ class Main(tk.Tk):
 		
 		# help menu
 		this.menus.help = tk.Menu(this.menu, tearoff=False);
-		this.menus.help.add_command(label="About");
+		this.menus.help.add_command(label="About", command=lambda:messagebox.showinfo("About", "Clone of the game \"Jezzball\""));
 		this.menu.add_cascade(label="Help", menu=this.menus.help);
 		
 		# make toolbar
