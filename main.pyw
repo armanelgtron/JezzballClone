@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# main entry point for application...
+
 from src.mainwindow import * 
 from src.game import game
 

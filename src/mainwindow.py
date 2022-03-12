@@ -90,6 +90,7 @@ class Main(tk.Tk):
 		this.canvas.bind("<Button 3>", this.gameRight);
 		this.gameRight(None); # trigger a right-click now to set up cursor
 		
+		# Labels for game status
 		l = tk.Frame(this);
 		this.fill_ = tk.Label(l, text="Fill: ");
 		this.fill = tk.Label(l, text="0% ");
@@ -116,29 +117,35 @@ class Main(tk.Tk):
 		game.updateLabel = lambda:this.updateLabel();
 	
 	def report_callback_exception(this, exc, val, tb):
+		# Get exception and write to standard error output
 		import sys, traceback;
 		sys.stderr.write("Exception in Tkinter callback\r\n");
 		sys.last_type, sys.last_value = exc, val;
 		sys.last_traceback = tb;
 		traceback.print_exception(exc, val, tb);
 		
+		# Show it in a error dialog.
 		messagebox.showerror("Fatal Error",
 			str.join("\n", traceback.format_exception(exc, val, tb))
 		);
 		
+		# And close the application,
+		# No need to keep the application running in a broken and unusable state
 		this.destroy();
 	
 	def openConfiguration(this):
 		conf = ConfigureWindow(this);
 	
-	def updateLabel(this):
+	def updateLabel(this): # Update labels with current status, according to vars
 		this.fill.config(text=str(game.fill)+"% ")
 		this.lives.config(text=str(game.lives)+" ")
 		this.lvl.config(text=str(game.level)+" ")
 	
 	def togglePause(this):
+		# Flip between paused and unpaused
 		game.paused = (not game.paused);
 		
+		# Update pause toolbar action, so it looks pressed in when paused
 		if( game.paused ):
 			this.tb_main_pause.config(relief=tk.SUNKEN);
 		else:
@@ -175,6 +182,8 @@ class Main(tk.Tk):
 	def gameRight(this, e):
 		# flip the cursormode between 0 and 1
 		game.cursorMode ^= 1;
+		
+		# Update cursor type
 		if( game.cursorMode ):
 			this.canvas.config(cursor="sb_h_double_arrow");
 		else:
