@@ -29,7 +29,7 @@ class ConfigureWindow(tk.Toplevel):
 		this.width = tk.IntVar(this.s1, game.width);
 		this.inp_width = tk.Spinbox(this.s1, textvariable=this.width,
 			width=5,
-			from_=1, to=min(250, round((root.winfo_screenwidth()/16)+(1/2))),
+			from_=5, to=min(250, round((root.winfo_screenwidth()/16)+(1/2))),
 			increment=1,
 		);
 		this.inp_width.config(increment=1.0);
@@ -41,7 +41,7 @@ class ConfigureWindow(tk.Toplevel):
 		this.height = tk.IntVar(this.s1, game.height);
 		this.inp_height = tk.Spinbox(this.s1, textvariable=this.height,
 			width=5,
-			from_=1, to=min(250, (round((root.winfo_screenheight()/16)+(1/2))-6)),
+			from_=5, to=min(250, (round((root.winfo_screenheight()/16)+(1/2))-6)),
 			increment=1,
 		);
 		this.label_height.grid(row=1, column=3);
