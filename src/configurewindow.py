@@ -115,7 +115,7 @@ class ConfigureWindow(tk.Toplevel):
 			or
 			( newHeight < this.inp_height.cget("from") or newHeight > this.inp_height.cget("to") )
 			or
-			( newFill < this.inp_fill.cget("from") or newHeight > this.inp_fill.cget("to") )
+			( newFill < this.inp_fill.cget("from") or newFill > this.inp_fill.cget("to") )
 		):
 			tk.messagebox.showerror("Error", "One or more values are outside the valid range.");
 			return False;
