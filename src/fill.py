@@ -45,10 +45,6 @@ def _unfill_stack(x_, y_, objs):
 		
 		stack.append((x-1, y  ));
 		stack.append((x+1, y  ));
-		stack.append((x-1, y-1));
-		stack.append((x-1, y+1));
-		stack.append((x+1, y-1));
-		stack.append((x+1, y+1));
 		stack.append((x  , y-1));
 		stack.append((x  , y+1));
 
@@ -68,10 +64,6 @@ def _unfill_recur(x, y, objs):
 	
 	_unfill_recur(x-1, y  , objs);
 	_unfill_recur(x+1, y  , objs);
-	_unfill_recur(x-1, y-1, objs);
-	_unfill_recur(x-1, y+1, objs);
-	_unfill_recur(x+1, y-1, objs);
-	_unfill_recur(x+1, y+1, objs);
 	_unfill_recur(x  , y-1, objs);
 	_unfill_recur(x  , y+1, objs);
 
