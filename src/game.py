@@ -115,15 +115,31 @@ class game:
 		timeout = int(20 - ( 1000 * ( time.time() - start )));
 		if( timeout < 1 ):
 			timeout = 1;
+			# primitive detection for if the game is running slow
+			if( not game.lag ):
+				game.lagC += 1;
+				if( game.lagC > 4 ):
+					game.lag = True;
+			elif( game.lagC < 10 ):
+				game.lagC += 1;
+		elif( timeout >= 8 and game.lagC > 0 ):
+			game.lagC -= 1;
+			if( game.lag and game.lagC == 0 ):
+				game.lag = False;
 		
 		canvas.after(timeout, game.loop, canvas);
 	
 	@staticmethod
 	def update(canvas): # do game cycle
-		for obj in game.objects:
-			if( obj.recvInteract ):
-				for obj2 in game.objects:
-					obj.interact(obj2);
+		game.frame += 1;
+		# only interact objects every other frame if slowdown is detected
+		# somewhat basic but shouldn't affect the game as much as slowdown does
+		# at the cost of somewhat jittery movement
+		if( not game.lag or game.frame&1 ):
+			for obj in game.objects:
+				if( obj.recvInteract ):
+					for obj2 in game.objects:
+						obj.interact(obj2);
 		
 		destroyed = [];
 		
