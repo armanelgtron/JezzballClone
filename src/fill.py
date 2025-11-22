@@ -31,15 +31,12 @@ def _unfill_stack(x_, y_, objs):
 			if(_gamestate[x][y].x == x and _gamestate[x][y].y == y ):
 				continue;
 		
-		_continue = False;
-		
-		for pos in objs:
-			if( pos[0] == x and pos[1] == y ):
-				_continue = True;
-				break;
-		
-		if(_continue): continue;
-		
+		try:
+			objs.index( (x, y) );
+		except ValueError:
+			pass;
+		else:
+			continue;
 		
 		objs.append( (x, y) );
 		
@@ -100,14 +97,19 @@ def doFill(canvas, x, y):
 	unfill = [];
 	for obj in game.objects:
 		_x = round(obj.x); _y = round(obj.y);
-		for pos in wallPos:
-			if( pos[0] == obj.x and pos[1] == obj.y ):
+		try:
 				# delete anything that is anywhere where a static object is
-				wallPos.remove(pos);
-				break;
-			if( pos[0] == _x and pos[1] == _y ):
+				wallPos.remove( (obj.x, obj.y) );
+		except ValueError:
+			try:
+				wallPos.index( (_x, _y) );
+			except ValueError:
+				pass;
+			else:
 				# probably a ball here, mark to unfill
 				unfill.append( (_x, _y) );
+		else:
+				break;
 	
 	# unfill areas with balls
 	# makes sure only empty areas without balls are filled in
@@ -119,10 +121,10 @@ def doFill(canvas, x, y):
 	
 	# actually delete walls
 	for pos in delete:
-		for pos2 in wallPos:
-			if( pos[0] == pos2[0] and pos[1] == pos2[1] ):
-				wallPos.remove(pos2);
-				break;
+		try:
+			wallPos.remove( (pos[0], pos[1]) );
+		except ValueError:
+			pass;
 	
 	# finally, add walls in fill areas
 	for pos in wallPos:
