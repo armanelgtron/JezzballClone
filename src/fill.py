@@ -108,8 +108,6 @@ def doFill(canvas, x, y):
 			else:
 				# probably a ball here, mark to unfill
 				unfill.append( (_x, _y) );
-		else:
-				break;
 	
 	# unfill areas with balls
 	# makes sure only empty areas without balls are filled in
