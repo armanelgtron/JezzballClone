@@ -20,6 +20,9 @@ class game:
 	fill = 0;
 	
 	level = 0;
+	frame = 0;
+	lag = False;
+	lagC = 0;
 	
 	# whether the cursor is vertical or horizontal
 	# 0 = horizontal, 1 = vertical
